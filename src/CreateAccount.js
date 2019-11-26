@@ -6,7 +6,7 @@ import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
-import Quizzes from './Quizzes'
+import Quizzes from "./Quizzes";
 import Instructor from "./Instructor";
 import React, { Component } from "react";
 import "./App.css";
@@ -14,62 +14,54 @@ import axios from "axios";
 const serverUrl = "http://localhost:3000/api";
 
 class CreateAccount extends React.Component {
-    state = {
-        instructor: "",
-        quizzes: [],
-        questions: [],
-        id: "",
-        newInstructor: {},
-        instructors: [],
-        updateInstructor: {}
-      };
+  state = {
+    instructor: "",
+    quizzes: [],
+    questions: [],
+    id: "",
+    newInstructor: {},
+    instructors: [],
+    updateInstructor: {}
+  };
 
+  onHandleChange = e => {
+    let newInstructor = {
+      [e.target.name]: e.target.value
+    };
 
+    this.setState((prevState, currentState) => ({
+      newInstructor: { ...prevState.newInstructor, ...newInstructor }
+    }));
+  };
 
-    onHandleChange = e => {
-        let newInstructor = {
-          [e.target.name]: e.target.value
-        }
-    
-        this.setState((prevState, currentState) => (
-          { newInstructor: { ...prevState.newInstructor, ...newInstructor } }
-        ))
-      }
-
-      createInstructor = e => {
-        e.preventDefault()
-        axios({
-          url: `${serverUrl}/instructors`,
-          method: 'post',
-          data: { newInstructor: this.state.newInstructor }
-        })
-          .then(response => {
-            this.setState(prevState => (
-              {
-                instructors: [...prevState.instructors, response.data.instructor]
-              }
-            ))
-          })
-      }
-    render() {
-        return (
-            <div>
-            <h1>Create Instructor</h1>
-                <form onSubmit={this.createInstructor} onChange={e => this.onHandleChange(e)}>
-                Name: <input type='text' name='name' />
-                Subject: <input type='text' name='subject' />
-                Grade Level: <input type='text' name='grade_level' />
-                <input type='submit' value='New Instructor' />
-                </form>
-            </div>
-        )
-    }
-
+  createInstructor = e => {
+    e.preventDefault();
+    axios({
+      url: `${serverUrl}/instructors`,
+      method: "post",
+      data: { newInstructor: this.state.newInstructor }
+    }).then(response => {
+      this.setState(prevState => ({
+        instructors: [...prevState.instructors, response.data.instructor]
+      }));
+    });
+  };
+  render() {
+    return (
+      <div>
+        <h1>Create Instructor</h1>
+        <form
+          onSubmit={this.createInstructor}
+          onChange={e => this.onHandleChange(e)}
+        >
+          Name: <input type="text" name="name" />
+          Subject: <input type="text" name="subject" />
+          Grade Level: <input type="text" name="grade_level" />
+          <input type="submit" value="New Instructor" />
+        </form>
+      </div>
+    );
+  }
 }
-
-
-
-
-
 
 export default CreateAccount;

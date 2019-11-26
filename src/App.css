@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'Great Vibes', cursive;
-  src: url(<link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">)
-}
+
 
 .App {
   text-align: center;
@@ -27,15 +24,26 @@
   color: #09d3ac;
 }
 
+
+
+
+body {
+  font-family: 'Great Vibes', cursive;
+}
+
+h1, form {
+  font-family: 'Great Vibes', cursive;
+}
+
+
 h1 {
-  text-align: center;
   font-size: 500%;
   }
 
 h2, h3 {
   font-size: 280%;
-  text-align: center;
-}
+  
+} 
 
 body {
   background-image: url(Image/background42.png);
@@ -50,3 +58,25 @@ body {
   font-size: 24px;
   text-align: center;
 } */
+
+
+input[type=submit] {
+  padding:5px 15px; 
+  background:rgb(54, 181, 37);
+  color: white; 
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; 
+}
+
+input[type=text] {
+  display: block;
+  padding:5px 15px; 
+  /* background:rgb(54, 181, 37);
+  color: white;  */
+  border:0 none;
+  
+  -webkit-border-radius: 5px;
+  border-radius: 5px; 
+}
