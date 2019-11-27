@@ -209,6 +209,59 @@ class Quizzes extends React.Component {
     });
   };
 
+  onHandleChangeDeleteQuiz = e => {
+    let deleteQuiz = {
+      [e.target.name]: e.target.value
+    };
+
+    this.setState((prevState, currentState) => ({
+      deleteQuiz: { ...prevState.deleteQuiz, ...deleteQuiz }
+    }));
+  };
+
+
+  deleteQuiz = e => {
+    e.preventDefault();
+    console.log('deleteQuiz')
+    let id = Number(this.state.deleteQuiz.quizId)
+  axios({
+      url: `${serverUrl}/quizzes/${id}`,
+      method: 'delete'
+    })
+      .then(response => {
+        
+        this.setState({deleted:true})
+      })
+}
+
+
+
+onHandleChangeDeleteQuestion = e => {
+  let deleteQuestion = {
+    [e.target.name]: e.target.value
+  };
+
+  this.setState((prevState, currentState) => ({
+    deleteQuestion: { ...prevState.deleteQuestion, ...deleteQuestion }
+  }));
+};
+
+
+deleteQuestion = e => {
+  e.preventDefault();
+  console.log('deleteQuestion')
+  let id = Number(this.state.deleteQuestion.questionId)
+axios({
+    url: `${serverUrl}/questions/${id}`,
+    method: 'delete'
+  })
+    .then(response => {
+      
+      this.setState({deleted:true})
+    })
+}
+
+
   render() {
     if (this.state.instructor) {
       console.log(this.state.instructor);
@@ -268,6 +321,24 @@ class Quizzes extends React.Component {
               >
                 Quiz Id: <input type="text" name="quizId" />
                 <input type="submit" value="Save Question" />
+              </form>
+
+              <h1>Delete Quiz</h1>
+              <form
+                onSubmit={this.deleteQuiz}
+                onChange={e => this.onHandleChangeDeleteQuiz(e)}
+              >
+                Quiz Id: <input type="text" name="quizId" />
+                <input type="submit" value="Delete Quiz" />
+              </form>
+
+              <h1>Delete Question</h1>
+              <form
+                onSubmit={this.deleteQuestion}
+                onChange={e => this.onHandleChangeDeleteQuestion(e)}
+              >
+                Question Id: <input type="text" name="questionId" />
+                <input type="submit" value="Delete Question" />
               </form>
             </Col>
 
