@@ -6,7 +6,7 @@ import CreateAccount from "./CreateAccount";
 
 import Quizzes from "./Quizzes";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 
 class App extends React.Component {
   render() {

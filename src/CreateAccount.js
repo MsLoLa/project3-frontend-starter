@@ -14,15 +14,20 @@ import axios from "axios";
 const serverUrl = "http://localhost:3000/api";
 
 class CreateAccount extends React.Component {
-  state = {
-    instructor: "",
-    quizzes: [],
-    questions: [],
-    id: "",
-    newInstructor: {},
-    instructors: [],
-    updateInstructor: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      instructor: "",
+      quizzes: [],
+      questions: [],
+      id: "",
+      newInstructor: {},
+      instructors: [],
+      updateInstructor: {}
+    };
+    this.createInstructor = this.createInstructor.bind(this);
+  }
+  
 
   onHandleChange = e => {
     let newInstructor = {
@@ -41,9 +46,13 @@ class CreateAccount extends React.Component {
       method: "post",
       data: { newInstructor: this.state.newInstructor }
     }).then(response => {
-      this.setState(prevState => ({
-        instructors: [...prevState.instructors, response.data.instructor]
-      }));
+      this.props.props.history.push({
+        pathname: '/Quizzes',
+        props: { 
+            instructor: response.data.instructor,
+            quizzes: response.data.instructor.quizzes 
+        }
+    })
     });
   };
   render() {

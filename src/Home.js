@@ -28,6 +28,7 @@ class Home extends React.Component {
       url: `${serverUrl}/instructors/${id}`,
       method: "get"
     }).then(response => {
+        console.log(this)
         this.props.history.push({
             pathname: '/Quizzes',
             props: { 
@@ -71,7 +72,7 @@ class Home extends React.Component {
                 </form>
               </Col>
               <Col>
-                <CreateAccount />
+                <CreateAccount props={this.props}/>
               </Col>
             </Row>
           </Container>

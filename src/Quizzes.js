@@ -12,7 +12,7 @@ class Quizzes extends React.Component {
     super();
     this.state = {
       quizzes: [],
-      instructor: props.location.props.instructor,
+      instructor: props.location.props.instructor,    
       questions: [],
       id: "",
       newInstructor: {},
@@ -20,35 +20,44 @@ class Quizzes extends React.Component {
       updateInstructor: {}
     };
     console.log(props.location.props)
+    console.log(props.location.props.instructor.name)
     this.getQuiz = this.getQuiz.bind(this);
     this.createQuiz = this.createQuiz.bind(this);
     this.createQuestion = this.createQuestion.bind(this);
   }
 
-  updateInstructor = e => {
-    e.preventDefault();
-    let id = this.state.updateInstructor.id;
-    let intId = Number(id);
-    axios({
-      url: `${serverUrl}/instructors/${intId}`,
-      method: "put",
-      data: { updateInstructor: this.state.updateInstructor }
-    }).then(response => {
-      this.setState(prevState => ({
-        instructors: [...prevState.instructors, response.data.instructor]
-      }));
-    });
-  };
 
   onHandleChangeInstructor = e => {
     let updateInstructor = {
       [e.target.name]: e.target.value
+      
     };
     console.log(updateInstructor.id);
     this.setState((prevState, currentState) => ({
       updateInstructor: { ...prevState.updateInstructor, ...updateInstructor }
     }));
   };
+
+
+  // when we moved the functions we lost the state for updateInstructor; id is now returning as not a number
+  updateInstructor = e => {
+    e.preventDefault();
+    let id = this.state.updateInstructor.id;
+    let intId = Number(id);
+    console.log(intId)
+    axios({
+      url: `${serverUrl}/instructors/${intId}`,
+      method: "put",
+      data: { updateInstructor: this.state.updateInstructor }
+    }).then(response => {
+      
+      this.setState(prevState => ({
+        instructors: [...prevState.instructors, response.data.instructor]
+      }));
+    });
+  };
+
+ 
 
   handleChange = e => {
     let id = parseInt(e.target.value);
@@ -271,26 +280,7 @@ class Quizzes extends React.Component {
                 Instructor Id: <input type="text" name="instructorId" />
                 <input type="submit" value="Save Quiz" />
               </form>
-            </Col>
-
-            <Col>
               <div>
-                <h1>Update Instructor</h1>
-                <form
-                  onSubmit={this.updateInstructor}
-                  onChange={e => this.onHandleChangeInstructor}
-                >
-                  Name: <input type="text" name="name" />
-                  Subject: <input type="text" name="subject" />
-                  Grade Level: <input type="text" name="grade_level" />
-                  Instructor Id: <input type="text" name="id" />
-                  <input type="submit" value="Update Instructor" />
-                </form>
-
-                {this.state.instructor.name ? (
-                  <Instructor instructor={this.state.instructor} />
-                ) : null}
-                <div>
                   <form
                     onSubmit={this.getQuizzes}
                     onChange={e => this.handleChange(e)}
@@ -299,8 +289,29 @@ class Quizzes extends React.Component {
                     <input type="submit" value="Get Quiz" />
                   </form>
                 </div>
-              </div>
               <div>{renderQuizzes}</div>
+            </Col>
+
+            <Col>
+              <div>
+                <h1>Update Instructor</h1>
+                <form
+                  onSubmit={this.updateInstructor}
+                  onChange={e => this.onHandleChangeInstructor(e)}
+                >
+                  Name: <input type="text" name="name" />
+                  Subject: <input type="text" name="subject" />
+                  Grade Level: <input type="text" name="grade_level" />
+                  Instructor Id: <input type="number" name="id" />
+                  <input type="submit" value="Update Instructor" />
+                </form>
+
+                {this.state.instructor.name ? (
+                  <Instructor instructor={this.state.instructor} />
+                ) : null}
+               
+              </div>
+              
             </Col>
           </Row>
         </Container>
